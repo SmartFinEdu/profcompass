@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="uk" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Професійний Компас 9 клас — Самовизначення та Підприємництво</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for Profile Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                        },
+                        accent: {
+                            50: '#fdf4ff',
+                            500: '#a855f7',
+                            600: '#9333ea',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #0284c7 0%, #4f46e5 50%, #9333ea 100%);
+        }
+        .card-hover {
+            transition: all 0.25s ease-in-out;
+        }
+        .card-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.15);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="h-full text-slate-800 flex flex-col font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('tab-hero')">
+                    <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white shadow-md">
+                        <i class="fa-solid fa-compass text-xl animate-spin-slow"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg text-slate-900 tracking-tight block leading-none">Компас 9</span>
+                        <span class="text-xs text-brand-600 font-medium">Профіль & Підприємництво</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Links Desktop -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2">
+                    <button onclick="switchTab('tab-test')" id="nav-tab-test" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition">
+                        <i class="fa-solid fa-graduation-cap mr-1.5"></i>Профіль навчання
+                    </button>
+                    <button onclick="switchTab('tab-matrix')" id="nav-tab-matrix" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition">
+                        <i class="fa-solid fa-shapes mr-1.5"></i>3 Квадрати
+                    </button>
+                    <button onclick="switchTab('tab-business')" id="nav-tab-business" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition">
+                        <i class="fa-solid fa-lightbulb mr-1.5"></i>Бізнес-Ідеї
+                    </button>
+                    <button onclick="switchTab('tab-pitch')" id="nav-tab-pitch" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition">
+                        <i class="fa-solid fa-bullhorn mr-1.5"></i>60s Пітч
+                    </button>
+                    <button onclick="switchTab('tab-quiz')" id="nav-tab-quiz" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition">
+                        <i class="fa-solid fa-gamepad mr-1.5"></i>Квіз: Тренд чи Мода
+                    </button>
+                </nav>
+
+                <!-- Action Button -->
+                <div class="hidden sm:block">
+                    <button onclick="switchTab('tab-summary')" class="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-file-invoice"></i> Мій Портфель
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-slate-600 hover:text-slate-900 focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white px-4 pt-2 pb-4 space-y-1 shadow-lg">
+            <button onclick="switchTab('tab-test')" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100">
+                <i class="fa-solid fa-graduation-cap w-6 text-brand-500"></i>Профіль навчання
+            </button>
+            <button onclick="switchTab('tab-matrix')" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100">
+                <i class="fa-solid fa-shapes w-6 text-emerald-500"></i>3 Квадрати
+            </button>
+            <button onclick="switchTab('tab-business')" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100">
+                <i class="fa-solid fa-lightbulb w-6 text-amber-500"></i>Генератор бізнес-ідей
+            </button>
+            <button onclick="switchTab('tab-pitch')" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100">
+                <i class="fa-solid fa-bullhorn w-6 text-purple-500"></i>60-секундний пітч
+            </button>
+            <button onclick="switchTab('tab-quiz')" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-100">
+                <i class="fa-solid fa-gamepad w-6 text-rose-500"></i>Квіз: Тренд чи Мода
+            </button>
+            <button onclick="switchTab('tab-summary')" class="w-full text-left px-3 py-2 rounded-md text-base font-semibold text-brand-600 hover:bg-brand-50 mt-2">
+                <i class="fa-solid fa-file-invoice w-6"></i>Підсумковий Портфель
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Containers -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- TAB 0: HERO & WELCOME -->
+        <section id="tab-hero" class="tab-content block">
+            <div class="relative rounded-3xl gradient-bg text-white p-8 sm:p-12 md:p-16 overflow-hidden shadow-2xl mb-10">
+                <div class="absolute -right-10 -bottom-10 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="max-w-3xl relative z-10">
+                    <span class="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-semibold uppercase tracking-wider mb-4 border border-white/20">
+                        Офіційний курс 9 класу • Підприємництво та Фінансова Грамотність
+                    </span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-6 leading-tight">
+                        Знайди свої сильні сторони та перетвори захоплення на власну справу!
+                    </h1>
+                    <p class="text-lg text-white/90 mb-8 leading-relaxed">
+                        «Знання себе — це компас. Знання середовища — це карта». Досліди свої переваги, обери свій профіль у 10-11 класах та дізнайся, як об'єднати власне хобі з сучасними економічними трендами!
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button onclick="switchTab('tab-test')" class="bg-white text-slate-900 hover:bg-slate-100 font-bold px-6 py-3.5 rounded-xl shadow-lg hover:shadow-xl transition flex items-center gap-2">
+                            <i class="fa-solid fa-compass text-brand-600"></i> Розпочати тестування
+                        </button>
+                        <button onclick="switchTab('tab-matrix')" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-6 py-3.5 rounded-xl backdrop-blur-sm transition flex items-center gap-2">
+                            <i class="fa-solid fa-cubes"></i> Практикум «3 Квадрати»
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm card-hover">
+                    <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-square-root-variable"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 mb-2">4 Профілі Навчання</h3>
+                    <p class="text-slate-600 text-sm">Математичний, Філологічний, Правовий чи Біологічний. Дізнайся, що підходить саме тобі.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm card-hover">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-gem"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 mb-2">Капітал Сильних Сторін</h3>
+                    <p class="text-slate-600 text-sm">Сильні сторони — це вітрила вашого корабля. Навчися їх розвивати, а слабші — делегувати.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm card-hover">
+                    <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 mb-2">Тренди vs Мода</h3>
+                    <p class="text-slate-600 text-sm">Аналізуй ринок, орієнтуйся на попит і створюй бізнес, який вирішує реальні проблеми людей.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm card-hover">
+                    <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-stopwatch"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 mb-2">Капітанський Пітч</h3>
+                    <p class="text-slate-600 text-sm">За 60 секунд презентуй власну ідею інвесторам чи друзям за шкільною формулою успіху.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 1: DIAGNOSTIC TEST FOR ACADEMIC PROFILES -->
+        <section id="tab-test" class="tab-content hidden">
+            <div class="max-w-4xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="bg-slate-900 text-white p-6 sm:p-8">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-400">Тест самовизначення</span>
+                        <span id="quiz-progress-text" class="text-xs font-medium text-slate-400">Питання 1 з 8</span>
+                    </div>
+                    <h2 class="text-2xl font-bold">Визначення профілю навчання та схильностей</h2>
+                    <p class="text-slate-400 text-sm mt-1">Обери варіант відповіді, який найкраще відображає твої інтереси та звички.</p>
+                    
+                    <!-- Progress Bar -->
+                    <div class="w-full bg-slate-800 rounded-full h-2 mt-4 overflow-hidden">
+                        <div id="quiz-progress-bar" class="gradient-bg h-2 transition-all duration-300 w-1/8"></div>
+                    </div>
+                </div>
+
+                <div class="p-6 sm:p-10" id="quiz-container">
+                    <!-- Dynamic Question Area -->
+                    <div id="question-card">
+                        <h3 id="question-title" class="text-xl font-bold text-slate-900 mb-6"></h3>
+                        <div id="options-container" class="space-y-3">
+                            <!-- Options injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Test Result Area (hidden initially) -->
+                    <div id="quiz-result-card" class="hidden">
+                        <div class="text-center py-6">
+                            <div class="w-20 h-20 rounded-full bg-brand-100 text-brand-600 mx-auto flex items-center justify-center text-3xl mb-4">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <h3 class="text-2xl font-extrabold text-slate-900 mb-2">Твій рекомендований профіль визначено!</h3>
+                            <p class="text-slate-600 max-w-xl mx-auto mb-8">На основі твоїх відповідей наш «Професійний Компас» розрахував твою схильність до різних напрямів навчання та діяльності.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-slate-50 p-6 rounded-2xl border border-slate-200 mb-8">
+                            <div>
+                                <h4 id="top-profile-title" class="text-2xl font-bold text-brand-600 mb-3"></h4>
+                                <p id="top-profile-desc" class="text-slate-700 leading-relaxed text-sm mb-4"></p>
+                                <div class="bg-white p-4 rounded-xl border border-slate-200">
+                                    <span class="text-xs font-bold uppercase text-slate-400 block mb-1">Рекомендовані предмети / напрями:</span>
+                                    <span id="top-profile-subjects" class="font-semibold text-slate-800 text-sm"></span>
+                                </div>
+                            </div>
+                            <div class="w-full max-w-xs mx-auto">
+                                <canvas id="profileChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap justify-between items-center gap-4 border-t border-slate-200 pt-6">
+                            <button onclick="resetQuiz()" class="text-slate-600 hover:text-slate-900 font-medium text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-rotate-left"></i> Пройти тест заново
+                            </button>
+                            <button onclick="switchTab('tab-matrix')" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-6 py-3 rounded-xl transition flex items-center gap-2 shadow-sm">
+                                Перейти до Вправи «3 Квадрати» <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: 3 SQUARES MATRIX (METHOD FROM TEXTBOOK) -->
+        <section id="tab-matrix" class="tab-content hidden">
+            <div class="mb-8 text-center max-w-3xl mx-auto">
+                <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider">
+                    Сторінка 46 підручника • Практикум
+                </span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-3 mb-2">Аналіз сильних і слабких сторін «3 Квадрати»</h2>
+                <p class="text-slate-600">
+                    «Сильні сторони — це ваш капітал і вітрила. Слабкі сторони — це не дірки в кораблі, а зони, що потребують підтримки чи делегування». Заповни три квадрати свого життя.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Square 1: My Resource -->
+                <div class="bg-white rounded-3xl p-6 border-2 border-red-200 shadow-sm relative flex flex-col">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-red-100 text-red-600 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-lg">Мій Ресурс</h3>
+                            <span class="text-xs text-slate-500">Сильні сторони & вміння</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-600 mb-4 bg-red-50 p-3 rounded-xl">
+                        Що виходить легко і приємно? Що ти робиш без нагадувань? (Напр.: логіка, публічні виступи, дизайн, турбота про рослин).
+                    </p>
+                    <div id="resource-list" class="space-y-2 mb-4 flex-grow">
+                        <!-- Items injected dynamically -->
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="resource-input" placeholder="Додати ресурс..." class="flex-grow px-3 py-2 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none">
+                        <button onclick="addMatrixItem('resource')" class="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-xl text-sm font-semibold transition">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Square 2: My Experience -->
+                <div class="bg-white rounded-3xl p-6 border-2 border-emerald-200 shadow-sm relative flex flex-col">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-lg">Мій Досвід</h3>
+                            <span class="text-xs text-slate-500">Здобуті через зусилля навички</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-600 mb-4 bg-emerald-50 p-3 rounded-xl">
+                        Що давалося складно, але ти зміг/змогла розвинути? (Напр.: витривалість, англійська мова, монтаж відео, дисципліна).
+                    </p>
+                    <div id="experience-list" class="space-y-2 mb-4 flex-grow">
+                        <!-- Items injected dynamically -->
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="experience-input" placeholder="Додати досвід..." class="flex-grow px-3 py-2 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        <button onclick="addMatrixItem('experience')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-sm font-semibold transition">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Square 3: My Challenge -->
+                <div class="bg-white rounded-3xl p-6 border-2 border-sky-200 shadow-sm relative flex flex-col">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-mountain"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-lg">Мій Виклик</h3>
+                            <span class="text-xs text-slate-500">Зони зростання & делегування</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-600 mb-4 bg-sky-50 p-3 rounded-xl">
+                        Що відкладаєш, бо некомфортно? Впораєшся сам/сама чи краще делегувати партнеру? (Напр.: ведення обліку, продажі, рутина).
+                    </p>
+                    <div id="challenge-list" class="space-y-2 mb-4 flex-grow">
+                        <!-- Items injected dynamically -->
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="challenge-input" placeholder="Додати виклик..." class="flex-grow px-3 py-2 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                        <button onclick="addMatrixItem('challenge')" class="bg-sky-600 hover:bg-sky-700 text-white px-3 py-2 rounded-xl text-sm font-semibold transition">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strategic Advice Box from Page 46 -->
+            <div class="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-md">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl flex-shrink-0">
+                        <i class="fa-solid fa-anchor"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-amber-400 mb-1">Порада підручника для справжнього Капітана:</h4>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                            «Справжні капітани не ідеальні — вони знаю свої сильні сторони й розуміють, де потрібна допомога команди чи сучасних інструментів (ШІ, додатків, партнерів)».
+                        </p>
+                        <div class="flex flex-wrap gap-3">
+                            <button onclick="switchTab('tab-business')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-sm transition">
+                                <i class="fa-solid fa-lightbulb"></i> Підібрати бізнес-ідею під ці ресурси
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: BUSINESS IDEAS GENERATOR (HOBBY + TREND + NEED) -->
+        <section id="tab-business" class="tab-content hidden">
+            <div class="mb-8 text-center max-w-3xl mx-auto">
+                <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider">
+                    Формула успіху: Хобі + Тренд + Потреба
+                </span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-3 mb-2">Генератор бізнес-ідей для 9-класника</h2>
+                <p class="text-slate-600">
+                    «Хобі — справа для душі. Бізнесом воно стає, коли починає системно вирішувати проблеми людей і відповідати трендам часу».
+                </p>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-8 flex flex-wrap gap-4 items-center justify-between">
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-xs font-bold uppercase text-slate-400 mr-2">Профіль:</span>
+                    <button onclick="filterIdeas('all')" class="idea-filter-btn active bg-slate-900 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">Усі</button>
+                    <button onclick="filterIdeas('math')" class="idea-filter-btn bg-slate-100 text-slate-700 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-xs font-semibold">Математичний / IT</button>
+                    <button onclick="filterIdeas('philology')" class="idea-filter-btn bg-slate-100 text-slate-700 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-xs font-semibold">Філологічний / Медіа</button>
+                    <button onclick="filterIdeas('law')" class="idea-filter-btn bg-slate-100 text-slate-700 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-xs font-semibold">Правовий / Соціальний</button>
+                    <button onclick="filterIdeas('biology')" class="idea-filter-btn bg-slate-100 text-slate-700 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-xs font-semibold">Біологічний / Еко</button>
+                </div>
+                <div class="text-xs text-slate-500">
+                    Показано <span id="ideas-count" class="font-bold text-slate-800">8</span> бізнес-моделей
+                </div>
+            </div>
+
+            <!-- Business Ideas Cards Grid -->
+            <div id="ideas-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <!-- Injected dynamically by JS -->
+            </div>
+        </section>
+
+        <!-- TAB 4: 60-SECOND CAPTAIN'S PITCH CREATOR -->
+        <section id="tab-pitch" class="tab-content hidden">
+            <div class="max-w-4xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="bg-gradient-to-r from-purple-900 to-indigo-900 text-white p-6 sm:p-8">
+                    <span class="px-3 py-1 rounded-full bg-white/20 text-xs font-bold uppercase tracking-wider">
+                        Сторінка 35 підручника • Рефлексія
+                    </span>
+                    <h2 class="text-2xl font-extrabold mt-3">Конструктор «60-секундного капітанського бізнес-пітчу»</h2>
+                    <p class="text-purple-200 text-sm mt-1">
+                        У тебе є одна хвилина, щоб презентувати бізнес-ідею за формулою успішного капітана!
+                    </p>
+                </div>
+
+                <div class="p-6 sm:p-10">
+                    <form id="pitch-form" onsubmit="generatePitch(event)" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-900 mb-2">
+                                1. Назва вашої бізнес-ідеї або стартапу:
+                            </label>
+                            <input type="text" id="pitch-name" required placeholder="Наприклад: 'EcoPack - Екологічні сумочки ручної роботи'" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:outline-none text-sm">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-900 mb-2">
+                                2. Яку проблему або потребу покупців ви розв'язуєте? (С. 35)
+                            </label>
+                            <textarea id="pitch-problem" required rows="2" placeholder="Наприклад: 'Людям не вистачає зручних та багаторазових торбинок для продуктів, які замінять пластик.'" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:outline-none text-sm"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-900 mb-2">
+                                3. На яку зміну чи глобальний тренд ви реагуєте? (С. 50-51)
+                            </label>
+                            <input type="text" id="pitch-trend" required placeholder="Наприклад: 'Тренд на свідоме споживання та екологічний спосіб життя.'" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:outline-none text-sm">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-900 mb-2">
+                                4. У чому ваша особлива цінність та як ви етично впливаєте на попит?
+                            </label>
+                            <input type="text" id="pitch-value" required placeholder="Наприклад: 'Ми використовуємо перероблені тканини та віддаємо 10% на садіння дерев.'" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:outline-none text-sm">
+                        </div>
+
+                        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Згенерувати Текст 60-Секундного Пітчу
+                        </button>
+                    </form>
+
+                    <!-- Pitch Output Card -->
+                    <div id="pitch-result" class="hidden mt-8 border-t border-slate-200 pt-8">
+                        <div class="bg-purple-50 rounded-2xl p-6 border border-purple-200 relative">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="font-bold text-purple-900 text-lg flex items-center gap-2">
+                                    <i class="fa-solid fa-microphone-lines text-purple-600"></i> Твій Готовий Пітч для Виступу:
+                                </h4>
+                                <!-- Timer Widget -->
+                                <div class="flex items-center bg-white px-3 py-1.5 rounded-xl border border-purple-200 shadow-sm gap-2">
+                                    <i class="fa-solid fa-stopwatch text-purple-600"></i>
+                                    <span id="pitch-timer" class="font-mono font-bold text-slate-800 text-lg">00:60</span>
+                                    <button onclick="togglePitchTimer()" id="timer-btn" class="bg-purple-600 text-white text-xs px-2 py-1 rounded-lg font-semibold ml-1">Старт</button>
+                                </div>
+                            </div>
+
+                            <p id="pitch-speech-text" class="text-slate-800 leading-relaxed font-medium italic text-base bg-white p-5 rounded-xl border border-purple-100 mb-4 shadow-inner">
+                                <!-- Generated pitch text goes here -->
+                            </p>
+
+                            <div class="flex flex-wrap justify-between items-center gap-3">
+                                <button onclick="copyPitchText()" class="bg-white hover:bg-slate-100 text-slate-700 font-semibold px-4 py-2 rounded-xl border border-slate-200 text-sm transition flex items-center gap-2">
+                                    <i class="fa-solid fa-copy"></i> Скопіювати текст
+                                </button>
+                                <button onclick="savePitchToSummary()" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-4 py-2 rounded-xl text-sm transition flex items-center gap-2">
+                                    <i class="fa-solid fa-bookmark"></i> Додати до підсумкового портфеля
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: QUIZ "TREND VS FAD & MARKET FORCES" -->
+        <section id="tab-quiz" class="tab-content hidden">
+            <div class="mb-8 text-center max-w-3xl mx-auto">
+                <span class="px-3 py-1 rounded-full bg-rose-100 text-rose-800 text-xs font-bold uppercase tracking-wider">
+                    Сторінки 47–50 підручника • Практикум
+                </span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-3 mb-2">Тренд чи Мода? Попит і Пропозиція</h2>
+                <p class="text-slate-600">
+                    Перевірте свою підприємницьку інтуїцію та розрізнення довготривалих трендів від короткочасних спалахів моди!
+                </p>
+            </div>
+
+            <!-- Quiz Interactive Card -->
+            <div class="max-w-3xl mx-auto bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+                <div id="trend-quiz-body">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">Картка <span id="tquiz-step">1</span> з 5</span>
+                        <span id="tquiz-score" class="text-xs font-bold bg-rose-50 text-rose-700 px-3 py-1 rounded-full">Бали: 0</span>
+                    </div>
+
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 mb-6">
+                        <h3 id="tquiz-question" class="text-lg font-bold text-slate-900 mb-2"></h3>
+                        <p id="tquiz-subtext" class="text-slate-600 text-sm"></p>
+                    </div>
+
+                    <div id="tquiz-options" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        <!-- Options injected by JS -->
+                    </div>
+
+                    <div id="tquiz-feedback" class="hidden p-4 rounded-xl text-sm mb-4"></div>
+
+                    <div class="flex justify-end">
+                        <button id="tquiz-next-btn" onclick="nextTrendQuestion()" class="hidden bg-slate-900 text-white font-bold px-6 py-2.5 rounded-xl transition">
+                            Наступне питання <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Complete Area -->
+                <div id="trend-quiz-complete" class="hidden text-center py-8">
+                    <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center text-2xl mb-4">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2">Вітаємо! Квіз пройдено</h3>
+                    <p id="trend-quiz-final-score" class="text-slate-600 mb-6"></p>
+                    <button onclick="resetTrendQuiz()" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-6 py-2.5 rounded-xl transition">
+                        Пройти ще раз
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 6: STUDENT SUMMARY PORTFOLIO -->
+        <section id="tab-summary" class="tab-content hidden">
+            <div class="max-w-4xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden print:shadow-none print:border-none">
+                <div class="gradient-bg text-white p-8">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="text-xs uppercase font-bold tracking-wider text-white/80">Особистий Портфель Учня 9 Класу</span>
+                            <h2 class="text-3xl font-extrabold mt-1">«Професійний Компас & Бізнес-Старт»</h2>
+                        </div>
+                        <button onclick="window.print()" class="bg-white/20 hover:bg-white/30 text-white text-xs font-semibold px-4 py-2 rounded-xl backdrop-blur-md transition flex items-center gap-2 print:hidden">
+                            <i class="fa-solid fa-print"></i> Друкувати / Зберегти PDF
+                        </button>
+                    </div>
+                </div>
+
+                <div class="p-8 space-y-8">
+                    <!-- Profile Result Summary -->
+                    <div class="border-b border-slate-200 pb-6">
+                        <h3 class="text-xs font-bold uppercase text-slate-400 tracking-wider mb-3">1. Рекомендований Профіль Навчання</h3>
+                        <div id="summary-profile-box" class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                            <p class="text-slate-500 italic text-sm">Тестування ще не пройдено. Перейдіть до розділу «Профіль навчання».</p>
+                        </div>
+                    </div>
+
+                    <!-- 3 Squares Summary -->
+                    <div class="border-b border-slate-200 pb-6">
+                        <h3 class="text-xs font-bold uppercase text-slate-400 tracking-wider mb-3">2. Матриця «3 Квадрати» (Сильні сторони)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-red-50 p-4 rounded-xl border border-red-200">
+                                <h4 class="font-bold text-red-900 text-xs uppercase mb-2"><i class="fa-solid fa-bolt mr-1"></i> Ресурс</h4>
+                                <ul id="summary-resource-list" class="text-xs text-slate-700 space-y-1 list-disc list-inside"></ul>
+                            </div>
+                            <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-200">
+                                <h4 class="font-bold text-emerald-900 text-xs uppercase mb-2"><i class="fa-solid fa-trophy mr-1"></i> Досвід</h4>
+                                <ul id="summary-experience-list" class="text-xs text-slate-700 space-y-1 list-disc list-inside"></ul>
+                            </div>
+                            <div class="bg-sky-50 p-4 rounded-xl border border-sky-200">
+                                <h4 class="font-bold text-sky-900 text-xs uppercase mb-2"><i class="fa-solid fa-mountain mr-1"></i> Виклик</h4>
+                                <ul id="summary-challenge-list" class="text-xs text-slate-700 space-y-1 list-disc list-inside"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Selected Business Pitch Summary -->
+                    <div>
+                        <h3 class="text-xs font-bold uppercase text-slate-400 tracking-wider mb-3">3. Бізнес-Ідея та 60-Секундний Пітч</h3>
+                        <div id="summary-pitch-box" class="bg-purple-50 p-5 rounded-2xl border border-purple-200">
+                            <p class="text-slate-500 italic text-sm">Пітч ще не сформовано. Заповніть конструктор у розділі «60s Пітч».</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-6 border-t border-slate-200 text-center text-xs text-slate-500">
+                    Електронний додаток до підручника «Підприємництво і фінансова грамотність» для 9 класу (авт. Стеценко І. Б., Андрусич О. О.) © Видавництво «Світич», 2026
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        /* State Variables */
+        let currentTab = 'tab-hero';
+        let quizScores = { math: 0, philology: 0, law: 0, biology: 0 };
+        let currentQuizIndex = 0;
+        let chartInstance = null;
+
+        let matrixData = {
+            resource: ['Аналітичне мислення', 'Креативність'],
+            experience: ['Презентація матеріалу', 'Самодисципліна'],
+            challenge: ['Ведення фінансового обліку']
+        };
+
+        let savedPitch = null;
+
+        /* Quiz Questions Database */
+        const questions = [
+            {
+                title: "Який тип завдань або шкільних предметів приносить тобі найбільше задоволення?",
+                options: [
+                    { text: "Розв’язування складних задач, алгебра, кодування або логічні головоломки", profile: "math" },
+                    { text: "Написання творів, вивчення іноземних мов, читання та ведення блогу", profile: "philology" },
+                    { text: "Правознавство, дискусії про правила, історія та суспільствознавство", profile: "law" },
+                    { text: "Біологія, експерименти в лабораторії, дослідження природи та тварин", profile: "biology" }
+                ]
+            },
+            {
+                title: "Якби ти створював(ла) власний проєкт у школі, що ти обереш?",
+                options: [
+                    { text: "Розрахунок бюджету, створення фінансової карти чи вебсайту", profile: "math" },
+                    { text: "Створення брендингу, написання постів для соцмереж та копірайтинг", profile: "philology" },
+                    { text: "Організація команди, розробка статуту проєкту та переговори", profile: "law" },
+                    { text: "Розробка екологічної ініціативи або переробки відходів", profile: "biology" }
+                ]
+            },
+            {
+                title: "Що є твоєю найсильнішою суперсилою під час роботи в команді?",
+                options: [
+                    { text: "Уважність до деталей, точність та робота з даними", profile: "math" },
+                    { text: "Вміння переконувати словом та красиво висловлювати думки", profile: "philology" },
+                    { text: "Вміння вирішувати конфлікти та захищати права кожного", profile: "law" },
+                    { text: "Турбота про довкілля, здоров’я та живі організми", profile: "biology" }
+                ]
+            },
+            {
+                title: "Які новини чи статті в інтернеті тебе зацікавлять найшвидше?",
+                options: [
+                    { text: "Про нові технології, криптовалюти, штучний інтелект та стартапи", profile: "math" },
+                    { text: "Про нові книги, кінематограф, мовні тренди та медіа", profile: "philology" },
+                    { text: "Про нові закони, міжнародні відносини та суспільні реформи", profile: "law" },
+                    { text: "Про медицину майбутнього, екологію та біотехнології", profile: "biology" }
+                ]
+            },
+            {
+                title: "Як ти волієш розв'язувати виклики та проблеми?",
+                options: [
+                    { text: "Алгоритмічно: розбиваю на кроки, рахую ризики та будую схему", profile: "math" },
+                    { text: "Комунікативно: обговорюю, шукаю влучні метафори та тексти", profile: "philology" },
+                    { text: "Правово: перевіряю правила, договори та регламенти", profile: "law" },
+                    { text: "Природничо: спостерігаю, тестую на практиці та досліджую", profile: "biology" }
+                ]
+            },
+            {
+                title: "Яка діяльність для тебе є найкращим відпочинком (хобі)?",
+                options: [
+                    { text: "Настільні логічні ігри, відеоігри зі складним сюжетом чи кодинг", profile: "math" },
+                    { text: "Читання книг, написання віршів/історій, вивчення нових слів", profile: "philology" },
+                    { text: "Участь у шкільному самоврядуванні, дебатах чи волонтерстві", profile: "law" },
+                    { text: "Догляд за рослинами, домашніми улюбленцями, походи на природу", profile: "biology" }
+                ]
+            },
+            {
+                title: "Який сучасний глобальний тренд тобі найближчий?",
+                options: [
+                    { text: "Автоматизація, FinTech та штучний інтелект", profile: "math" },
+                    { text: "Контент-мейкінг, креативна економіка та сторітелінг", profile: "philology" },
+                    { text: "Соціальна відповідальність, права людини та етичний бізнес", profile: "law" },
+                    { text: "Зелена енергетика, GreenTech та здоровий спосіб життя", profile: "biology" }
+                ]
+            },
+            {
+                title: "Ким ти бачиш себе через 10 років?",
+                options: [
+                    { text: "IT-архітектором, фінансовим аналітиком чи інженером", profile: "math" },
+                    { text: "Журналістом, перекладачем, PR-директором чи письменником", profile: "philology" },
+                    { text: "Юристом, адвокатом, дипломатом чи топ-менеджером", profile: "law" },
+                    { text: "Лікарем, біотехнологом, еко-консультантом чи науковцем", profile: "biology" }
+                ]
+            }
+        ];
+
+        /* Business Ideas Database mapped to Profiles & Trends */
+        const businessIdeas = [
+            {
+                id: 1,
+                title: "IT & AI Навчальний Асистент",
+                profile: "math",
+                profileName: "Математичний / IT",
+                trend: "Штучний інтелект & EdTech",
+                need: "Учні витрачають забагато часу на пошук матеріалів для ДПА/ЗНО.",
+                solution: "Створення телеграм-бота чи промпт-шаблонів для ШІ, що допомагають готуватися до іспитів.",
+                icon: "fa-robot",
+                color: "sky"
+            },
+            {
+                id: 2,
+                title: "SMM & Медіа Агенція для Місцевого Бізнесу",
+                profile: "philology",
+                profileName: "Філологічний / Медіа",
+                trend: "Відеоконтент & Соцмережі",
+                need: "Локальні кав'ярні та магазини не вміють вести TikTok/Instagram.",
+                solution: "Створення коротких яскравих відео, написання постів та залучення молодіжної аудиторії.",
+                icon: "fa-hashtag",
+                color: "purple"
+            },
+            {
+                id: 3,
+                title: "Шкільне Юридично-Етичне Агентство",
+                profile: "law",
+                profileName: "Правовий / Соціальний",
+                trend: "Етичний бізнес & Права молоді",
+                need: "Підлітки не знають своїх трудових прав при підробітку та договірних умов.",
+                solution: "Консультаційний блог та гайди про безпекове працевлаштування підлітків.",
+                icon: "fa-scale-balanced",
+                color: "amber"
+            },
+            {
+                id: 4,
+                title: "Eco-Microgreens & Еко-Ферма",
+                profile: "biology",
+                profileName: "Біологічний / Еко",
+                trend: "Здорове харчування & GreenTech",
+                need: "Попит на свіжі вітаміни та екологічно чисту зелень узимку.",
+                solution: "Вирощування мікрозелені вдома та доставка до місцевих ресторанів або сусідів.",
+                icon: "fa-seedling",
+                color: "emerald"
+            },
+            {
+                id: 5,
+                title: "3D-Друк Та Аксесуари На Замовлення",
+                profile: "math",
+                profileName: "Математичний / IT",
+                trend: "Кастомізація & Локальне виробництво",
+                need: "Люди шукають унікальні подарунки та запчастини, яких немає в магазинах.",
+                solution: "Моделювання та друк індивідуальних чохлів, органайзерів та сувенірів.",
+                icon: "fa-cube",
+                color: "sky"
+            },
+            {
+                id: 6,
+                title: "Рерайтинг & Мовний Консалтинг",
+                profile: "philology",
+                profileName: "Філологічний / Медіа",
+                trend: "Грамотність & Переклади",
+                need: "Потреба у якісному перекладі матеріалів українською мовою.",
+                solution: "Допомога блогерам у редагуванні сайтів та створенні грамотних текстів.",
+                icon: "fa-pen-nib",
+                color: "purple"
+            },
+            {
+                id: 7,
+                title: "Соціальний Шкільний Ярмарок / Шеринг",
+                profile: "law",
+                profileName: "Правовий / Соціальний",
+                trend: "Шерингова економіка (Circular Economy)",
+                need: "Переповнені шафи та потреба у повторному використанні підручників та речей.",
+                solution: "Організація онлайн-платформи для обміну та продажу шкільного приладдя.",
+                icon: "fa-handshake",
+                color: "amber"
+            },
+            {
+                id: 8,
+                title: "Натуральна Фіто-Косметика Ручної Роботи",
+                profile: "biology",
+                profileName: "Біологічний / Еко",
+                trend: "Clean Beauty & Еко-продукти",
+                need: "Алергія на хімічні домішки в масовій косметиці.",
+                solution: "Створення бальзамів для губ та мила на основі натуральних трав та воску.",
+                icon: "fa-leaf",
+                color: "emerald"
+            }
+        ];
+
+        /* Trend Quiz Questions Database */
+        const trendQuizData = [
+            {
+                question: "Що з переліченого є ТРЕНДОМ, а не короткочасною МОДОЮ?",
+                subtext: "Згадайте матеріали підручника (с. 50): Тренд — стійкий напрям змін на роки.",
+                options: [
+                    { text: "Популярність кольорового чохла для телефону з конкретним мемом", correct: false, note: "Це короткочасний спалах моди." },
+                    { text: "Поширення екологічного мислення та переробка відходів", correct: true, note: "Правильно! Це довготривалий глобальний тренд." },
+                    { text: "Певний челендж із танцем у ТікТок на 2 тижні", correct: false, note: "Це якраз приклад швидкої моди/мему." }
+                ]
+            },
+            {
+                question: "Згідно з Законом попиту (с. 47), що зазвичай відбувається, коли ціна товару зростає?",
+                subtext: "За інших незмінних умов.",
+                options: [
+                    { text: "Попит на товар зменшується", correct: true, note: "Вірно! Що вища ціна, то менше покупців готові придбати товар." },
+                    { text: "Попит зростає автоматично", correct: false, note: "Ні, за законом попиту висока ціна зменшує купівельну спроможність." },
+                    { text: "Попит залишається незмінним", correct: false, note: "Невірно." }
+                ]
+            },
+            {
+                question: "Як підприємцю вивчити попит на товар, який вже є на ринку? (Крок 1, с. 48)",
+                subtext: "Оберіть дієвий метод аналізу.",
+                options: [
+                    { text: "Створити товар наосліп і чекати", correct: false, note: "Це ризиковано і нераціонально." },
+                    { text: "Проаналізувати маркетплейси: відгуки, оцінки та популярність", correct: true, note: "Чудово! Це перший крок вивчення ринку з підручника." },
+                    { text: "Запитати лише своїх батьків", correct: false, note: "Мала вибірка не дає об'єктивної картини ринку." }
+                ]
+            },
+            {
+                question: "Що з цього описує поняття «Маркетплейс»? (с. 48)",
+                subtext: "Словничок підручника.",
+                options: [
+                    { text: "Онлайн-платформа, де багато продавців пропонують товари в одному місці", correct: true, note: "Точно! Наприклад, Prom, Rozetka, Amazon." },
+                    { text: "Окремий фізичний склад однієї фабрики", correct: false, note: "Ні, це лише склад." }
+                ]
+            },
+            {
+                question: "Як поєднати захоплення з бізнесом? (с. 51)",
+                subtext: "Формула капітана.",
+                options: [
+                    { text: "Робіть тільки те, що подобається вам, не зважаючи на покупців", correct: false, note: "Це залишиться просто хобі, а не бізнесом." },
+                    { text: "Знайдіть, яку проблему людей вирішує ваше хобі та чи є на це попит", correct: true, note: "Супер! Бізнес виникає там, де хобі відповідає потребі ринку." }
+                ]
+            }
+        ];
+
+        let trendQuizIndex = 0;
+        let trendQuizScore = 0;
+
+        function switchTab(tabId) {
+            currentTab = tabId;
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            // Update active state in nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-slate-100', 'text-brand-600', 'font-bold');
+            });
+
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.classList.add('bg-slate-100', 'text-brand-600', 'font-bold');
+            }
+
+            // Close mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (tabId === 'tab-summary') {
+                updateSummaryView();
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        /* Diagnostic Quiz Logic */
+        function renderQuestion() {
+            const q = questions[currentQuizIndex];
+            document.getElementById('question-title').innerText = `${currentQuizIndex + 1}. ${q.title}`;
+            document.getElementById('quiz-progress-text').innerText = `Питання ${currentQuizIndex + 1} з ${questions.length}`;
+            document.getElementById('quiz-progress-bar').style.width = `${((currentQuizIndex + 1) / questions.length) * 100}%`;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition flex items-center justify-between group";
+                btn.onclick = () => selectOption(opt.profile);
+                btn.innerHTML = `
+                    <span class="text-sm font-medium text-slate-800 group-hover:text-brand-700">${opt.text}</span>
+                    <i class="fa-solid fa-chevron-right text-slate-400 group-hover:text-brand-500 transition-transform group-hover:translate-x-1"></i>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectOption(profileKey) {
+            quizScores[profileKey]++;
+            currentQuizIndex++;
+
+            if (currentQuizIndex < questions.length) {
+                renderQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            document.getElementById('question-card').classList.add('hidden');
+            document.getElementById('quiz-result-card').classList.remove('hidden');
+
+            // Profiles data
+            const profilesInfo = {
+                math: {
+                    title: "Математичний / IT Профіль",
+                    desc: "Твій мозок працює як чіткий алгоритм. Ти вмієш бачити структури, логічні зв'язки та аналізувати цифри. Твій професійний капітал — аналітика, програмування та моделювання.",
+                    subjects: "Алгебра, Геометрія, Інформатика, Фізика, Фінанси"
+                },
+                philology: {
+                    title: "Філологічний / Медіа Профіль",
+                    desc: "Твоя сила — у слові, переконанні та креативі. Ти вмієш чути людські потреби та створювати переконливий контент, що надихає людей.",
+                    subjects: "Українська мова та література, Іноземні мови, Зарубіжна література, Медіаграмотність"
+                },
+                law: {
+                    title: "Правовий / Соціальний Профіль",
+                    desc: "Ти природжений лідер, дипломат та захисник справедливості. Вмієш розбиратися в правилах, критично мислити та будувати діалог.",
+                    subjects: "Правознавство, Історія України, Всесвітня історія, Громадянська освіта"
+                },
+                biology: {
+                    title: "Біологічний / Екологічний Профіль",
+                    desc: "Ти відчуваєш пульс живої природи, цінуєш здоров'я та довкілля. Твоє покликання — дослідження, екологія, медицина та новітні біотехнології.",
+                    subjects: "Біологія, Екологія, Хімія, Географія"
+                }
+            };
+
+            // Find top profile
+            let topKey = 'math';
+            let maxVal = -1;
+            for (let key in quizScores) {
+                if (quizScores[key] > maxVal) {
+                    maxVal = quizScores[key];
+                    topKey = key;
+                }
+            }
+
+            const info = profilesInfo[topKey];
+            document.getElementById('top-profile-title').innerText = info.title;
+            document.getElementById('top-profile-desc').innerText = info.desc;
+            document.getElementById('top-profile-subjects').innerText = info.subjects;
+
+            // Render Radar / Bar Chart using Chart.js
+            const ctx = document.getElementById('profileChart').getContext('2d');
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Математичний', 'Філологічний', 'Правовий', 'Біологічний'],
+                    datasets: [{
+                        data: [quizScores.math, quizScores.philology, quizScores.law, quizScores.biology],
+                        backgroundColor: ['#0284c7', '#a855f7', '#f59e0b', '#10b981']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 11 } } }
+                    }
+                }
+            });
+        }
+
+        function resetQuiz() {
+            quizScores = { math: 0, philology: 0, law: 0, biology: 0 };
+            currentQuizIndex = 0;
+            document.getElementById('question-card').classList.remove('hidden');
+            document.getElementById('quiz-result-card').classList.add('hidden');
+            renderQuestion();
+        }
+
+        /* 3 Squares Matrix Logic */
+        function renderMatrix() {
+            ['resource', 'experience', 'challenge'].forEach(type => {
+                const listEl = document.getElementById(`${type}-list`);
+                listEl.innerHTML = '';
+                matrixData[type].forEach((item, index) => {
+                    const tag = document.createElement('div');
+                    tag.className = "flex items-center justify-between bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs px-3 py-2 rounded-xl transition";
+                    tag.innerHTML = `
+                        <span>${item}</span>
+                        <button onclick="removeMatrixItem('${type}', ${index})" class="text-slate-400 hover:text-red-500 ml-2">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    `;
+                    listEl.appendChild(tag);
+                });
+            });
+        }
+
+        function addMatrixItem(type) {
+            const input = document.getElementById(`${type}-input`);
+            const val = input.value.trim();
+            if (val) {
+                matrixData[type].push(val);
+                input.value = '';
+                renderMatrix();
+            }
+        }
+
+        function removeMatrixItem(type, index) {
+            matrixData[type].splice(index, 1);
+            renderMatrix();
+        }
+
+        /* Business Generator Logic */
+        function renderBusinessIdeas(filterProfile = 'all') {
+            const grid = document.getElementById('ideas-grid');
+            grid.innerHTML = '';
+
+            const filtered = filterProfile === 'all' 
+                ? businessIdeas 
+                : businessIdeas.filter(item => item.profile === filterProfile);
+
+            document.getElementById('ideas-count').innerText = filtered.length;
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm card-hover flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-slate-100 text-slate-700">
+                                ${item.profileName}
+                            </span>
+                            <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center text-lg">
+                                <i class="fa-solid ${item.icon}"></i>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">${item.title}</h3>
+                        <div class="space-y-2 mb-4 text-xs">
+                            <p class="text-slate-600"><strong class="text-slate-800">Потреба ринку:</strong> ${item.need}</p>
+                            <p class="text-slate-600"><strong class="text-slate-800">Ідея рішення:</strong> ${item.solution}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bg-amber-50 text-amber-900 text-[11px] p-2.5 rounded-xl border border-amber-200 font-medium mb-4">
+                            <i class="fa-solid fa-arrow-trend-up mr-1 text-amber-600"></i> <strong>Тренд:</strong> ${item.trend}
+                        </div>
+                        <button onclick="useIdeaInPitch('${item.title}', '${item.need}', '${item.trend}')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-bullhorn"></i> Створити пітч для цієї ідеї
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterIdeas(profile) {
+            document.querySelectorAll('.idea-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-slate-900', 'text-white', 'active');
+                btn.classList.add('bg-slate-100', 'text-slate-700');
+            });
+            event.target.classList.add('bg-slate-900', 'text-white', 'active');
+            renderBusinessIdeas(profile);
+        }
+
+        function useIdeaInPitch(title, need, trend) {
+            document.getElementById('pitch-name').value = title;
+            document.getElementById('pitch-problem').value = need;
+            document.getElementById('pitch-trend').value = trend;
+            switchTab('tab-pitch');
+        }
+
+        /* 60-Second Pitch Logic */
+        let timerInterval = null;
+        let timeLeft = 60;
+        let timerRunning = false;
+
+        function generatePitch(e) {
+            e.preventDefault();
+            const name = document.getElementById('pitch-name').value;
+            const problem = document.getElementById('pitch-problem').value;
+            const trend = document.getElementById('pitch-trend').value;
+            const value = document.getElementById('pitch-value').value;
+
+            const text = `Вітаю! Мій проєкт називається «${name}». Сьогодні ми бачимо чітку проблему: ${problem}. Ми реагуємо на важливий сучасний тренд — ${trend}. Наша головна перевага та цінність для споживачів: ${value}. Приєднуйтесь до нашої ініціативи та творимо майбутнє разом!`;
+
+            document.getElementById('pitch-speech-text').innerText = text;
+            document.getElementById('pitch-result').classList.remove('hidden');
+
+            savedPitch = { name, problem, trend, value, speech: text };
+            resetPitchTimer();
+        }
+
+        function togglePitchTimer() {
+            const btn = document.getElementById('timer-btn');
+            if (timerRunning) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                btn.innerText = "Старт";
+                btn.className = "bg-purple-600 text-white text-xs px-2 py-1 rounded-lg font-semibold ml-1";
+            } else {
+                timerRunning = true;
+                btn.innerText = "Пауза";
+                btn.className = "bg-amber-600 text-white text-xs px-2 py-1 rounded-lg font-semibold ml-1";
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        timeLeft = 0;
+                        timerRunning = false;
+                        btn.innerText = "Готово!";
+                    }
+                    const sec = timeLeft < 10 ? `0${timeLeft}` : timeLeft;
+                    document.getElementById('pitch-timer').innerText = `00:${sec}`;
+                }, 1000);
+            }
+        }
+
+        function resetPitchTimer() {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            timeLeft = 60;
+            document.getElementById('pitch-timer').innerText = "00:60";
+            const btn = document.getElementById('timer-btn');
+            btn.innerText = "Старт";
+            btn.className = "bg-purple-600 text-white text-xs px-2 py-1 rounded-lg font-semibold ml-1";
+        }
+
+        function copyPitchText() {
+            const text = document.getElementById('pitch-speech-text').innerText;
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+            alert("Текст пітчу скопійовано до буфера обміну!");
+        }
+
+        function savePitchToSummary() {
+            alert("Пітч успішно додано до вашого Підсумкового Портфеля!");
+            updateSummaryView();
+        }
+
+        /* Trend vs Fad Quiz Logic */
+        function renderTrendQuestion() {
+            const data = trendQuizData[trendQuizIndex];
+            document.getElementById('tquiz-step').innerText = trendQuizIndex + 1;
+            document.getElementById('tquiz-question').innerText = data.question;
+            document.getElementById('tquiz-subtext').innerText = data.subtext;
+
+            const opts = document.getElementById('tquiz-options');
+            opts.innerHTML = '';
+
+            document.getElementById('tquiz-feedback').classList.add('hidden');
+            document.getElementById('tquiz-next-btn').classList.add('hidden');
+
+            data.options.forEach((opt) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 hover:border-slate-400 hover:bg-slate-50 transition text-sm font-medium text-slate-800";
+                btn.onclick = () => answerTrendQuiz(opt, btn);
+                btn.innerText = opt.text;
+                opts.appendChild(btn);
+            });
+        }
+
+        function answerTrendQuiz(selectedOption, btnElement) {
+            const feedback = document.getElementById('tquiz-feedback');
+            feedback.classList.remove('hidden');
+
+            // Disable all option buttons
+            const allBtns = document.getElementById('tquiz-options').querySelectorAll('button');
+            allBtns.forEach(b => b.disabled = true);
+
+            if (selectedOption.correct) {
+                trendQuizScore += 20;
+                btnElement.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900');
+                feedback.className = "p-4 rounded-xl text-sm mb-4 bg-emerald-50 border border-emerald-200 text-emerald-900 font-medium";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 mr-2"></i> ${selectedOption.note}`;
+            } else {
+                btnElement.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                feedback.className = "p-4 rounded-xl text-sm mb-4 bg-rose-50 border border-rose-200 text-rose-900 font-medium";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600 mr-2"></i> ${selectedOption.note}`;
+            }
+
+            document.getElementById('tquiz-score').innerText = `Бали: ${trendQuizScore}`;
+            document.getElementById('tquiz-next-btn').classList.remove('hidden');
+        }
+
+        function nextTrendQuestion() {
+            trendQuizIndex++;
+            if (trendQuizIndex < trendQuizData.length) {
+                renderTrendQuestion();
+            } else {
+                document.getElementById('trend-quiz-body').classList.add('hidden');
+                document.getElementById('trend-quiz-complete').classList.remove('hidden');
+                document.getElementById('trend-quiz-final-score').innerText = `Ваш результат: ${trendQuizScore} зі 100 можливих балів! Чудове розуміння ринкових сил.`;
+            }
+        }
+
+        function resetTrendQuiz() {
+            trendQuizIndex = 0;
+            trendQuizScore = 0;
+            document.getElementById('tquiz-score').innerText = `Бали: 0`;
+            document.getElementById('trend-quiz-body').classList.remove('hidden');
+            document.getElementById('trend-quiz-complete').classList.add('hidden');
+            renderTrendQuestion();
+        }
+
+        /* Summary View Renderer */
+        function updateSummaryView() {
+            // Profile Summary
+            const profileBox = document.getElementById('summary-profile-box');
+            if (quizScores.math > 0 || quizScores.philology > 0 || quizScores.law > 0 || quizScores.biology > 0) {
+                const topTitle = document.getElementById('top-profile-title').innerText;
+                const topDesc = document.getElementById('top-profile-desc').innerText;
+                profileBox.innerHTML = `
+                    <h4 class="font-bold text-slate-900 text-base mb-1">${topTitle}</h4>
+                    <p class="text-slate-600 text-xs leading-relaxed">${topDesc}</p>
+                `;
+            }
+
+            // 3 Squares Summary
+            ['resource', 'experience', 'challenge'].forEach(type => {
+                const listEl = document.getElementById(`summary-${type}-list`);
+                listEl.innerHTML = '';
+                if (matrixData[type].length === 0) {
+                    listEl.innerHTML = '<li class="text-slate-400 font-normal">Не вказано</li>';
+                } else {
+                    matrixData[type].forEach(item => {
+                        const li = document.createElement('li');
+                        li.innerText = item;
+                        listEl.appendChild(li);
+                    });
+                }
+            });
+
+            // Pitch Summary
+            const pitchBox = document.getElementById('summary-pitch-box');
+            if (savedPitch) {
+                pitchBox.innerHTML = `
+                    <h4 class="font-bold text-purple-900 text-sm mb-1">${savedPitch.name}</h4>
+                    <p class="text-slate-700 text-xs italic bg-white p-3 rounded-xl border border-purple-100">${savedPitch.speech}</p>
+                `;
+            }
+        }
+
+        window.onload = function() {
+            renderQuestion();
+            renderMatrix();
+            renderBusinessIdeas();
+            renderTrendQuestion();
+        };
+    </script>
+</body>
+</html>
